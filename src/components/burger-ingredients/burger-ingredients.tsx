@@ -5,25 +5,25 @@ import { TIngredient, TTabMode } from '@utils-types';
 import { BurgerIngredientsUI } from '../ui/burger-ingredients';
 import { useSelector } from 'react-redux';
 import {
-  getIngridientsSelector,
-  getIngridients
-} from '../../slices/ingridientsSlice';
+  getIngredientsSelector,
+  getIngredients
+} from '../../slices/ingredientsSlice';
 import { useDispatch } from '../../services/store';
 
 export const BurgerIngredients: FC = () => {
-  const { ingridients } = useSelector(getIngridientsSelector);
+  const { ingredients } = useSelector(getIngredientsSelector);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getIngridients());
+    dispatch(getIngredients());
   }, [dispatch]);
   /** TODO: взять переменные из стора */
   // const buns = [];
   // const mains = [];
   // const sauces = [];
 
-  const buns = ingridients.filter((ingridient) => ingridient.type === 'bun');
-  const mains = ingridients.filter(({ type }) => type === 'main');
-  const sauces = ingridients.filter(({ type }) => type === 'sauce');
+  const buns = ingredients.filter((ingredient) => ingredient.type === 'bun');
+  const mains = ingredients.filter(({ type }) => type === 'main');
+  const sauces = ingredients.filter(({ type }) => type === 'sauce');
 
   const [currentTab, setCurrentTab] = useState<TTabMode>('bun');
   const titleBunRef = useRef<HTMLHeadingElement>(null);

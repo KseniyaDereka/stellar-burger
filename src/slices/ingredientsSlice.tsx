@@ -3,43 +3,43 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getIngredientsApi } from '../utils/burger-api';
 import { TIngredient } from '../utils/types';
 
-export const getIngridients = createAsyncThunk(
+export const getIngredients = createAsyncThunk(
   'ingridients/getAll',
   async () => await getIngredientsApi()
 );
 
 type TIngridientsState = {
-  ingridients: Array<TIngredient>;
+  ingredients: Array<TIngredient>;
   error: string | undefined;
 };
 
 const initialState: TIngridientsState = {
-  ingridients: [],
+  ingredients: [],
   error: undefined
 };
 
 const ingredientsSlice = createSlice({
-  name: 'ingridients',
+  name: 'ingredients',
   initialState,
   reducers: {},
   selectors: {
-    getIngridientsSelector: (state) => state
+    getIngredientsSelector: (state) => state
   },
 
   extraReducers: (builder) => {
     builder
-      .addCase(getIngridients.pending, (state) => {
+      .addCase(getIngredients.pending, (state) => {
         state.error = undefined;
       })
-      .addCase(getIngridients.rejected, (state, action) => {
+      .addCase(getIngredients.rejected, (state, action) => {
         state.error = action.error.message;
       })
-      .addCase(getIngridients.fulfilled, (state, action) => {
-        state.ingridients = action.payload;
+      .addCase(getIngredients.fulfilled, (state, action) => {
+        state.ingredients = action.payload;
       });
   }
 });
 
 export default ingredientsSlice.reducer;
 
-export const { getIngridientsSelector } = ingredientsSlice.selectors;
+export const { getIngredientsSelector } = ingredientsSlice.selectors;
