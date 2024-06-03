@@ -2,7 +2,8 @@ import {
   createSlice,
   PayloadAction,
   nanoid,
-  createAsyncThunk
+  createAsyncThunk,
+  current
 } from '@reduxjs/toolkit';
 import { TIngredient, TConstructorIngredient, TOrder } from '../utils/types';
 import { orderBurgerApi } from '../utils/burger-api';
@@ -16,13 +17,15 @@ type ConstructorSliceState = {
   constructorItems: {
     bun: null | TConstructorIngredient;
     ingredients: Array<TConstructorIngredient>;
+    orderRequest: boolean;
   };
 };
 
 const initialState: ConstructorSliceState = {
   constructorItems: {
     bun: null,
-    ingredients: []
+    ingredients: [],
+    orderRequest: false
   }
 };
 
@@ -51,6 +54,32 @@ const constructorSlice = createSlice({
         state.constructorItems.ingredients.filter(
           (ingredient) => ingredient.id !== action.payload.id
         );
+    },
+    ingridientDown: (state, action: PayloadAction<TConstructorIngredient>) => {
+      const index = state.constructorItems.ingredients.findIndex(
+        (i) => i.id == action.payload.id
+      );
+      const [selected, next] = [
+        state.constructorItems.ingredients[index],
+        state.constructorItems.ingredients[index + 1]
+      ];
+      state.constructorItems.ingredients.splice(index, 2, next, selected);
+    },
+    ingridientUp: (state, action: PayloadAction<TConstructorIngredient>) => {
+      const index = state.constructorItems.ingredients.findIndex(
+        (i) => i.id == action.payload.id
+      );
+      console.log(index);
+      const [selected, previous] = [
+        state.constructorItems.ingredients[index],
+        state.constructorItems.ingredients[index - 1]
+      ];
+      state.constructorItems.ingredients.splice(
+        index - 1,
+        2,
+        selected,
+        previous
+      );
     }
   },
   selectors: {
@@ -61,17 +90,21 @@ const constructorSlice = createSlice({
   // extraReducers: (builder) => {
   //   builder
   //     .addCase(makeOrder.pending, (state) => {
-  //       state.error = undefined;
+  //       state.constructorItems.orderRequest = false;
   //     })
   //     .addCase(makeOrder.rejected, (state, action) => {
-  //       state.error = action.error.message;
+  //       state.constructorItems.orderRequest = false;
   //     })
   //     .addCase(makeOrder.fulfilled, (state, action) => {
-  //       state. = action.payload;
+  //       state.constructorItems.orderRequest = true;
+  //       state.constructorItems.ingredients = action.payload.order;
+  //     });
+
   //     });
   // }
 });
 
 export default constructorSlice.reducer;
 export const { getConstructorSelector } = constructorSlice.selectors;
-export const { addIngredient, removeIngredient } = constructorSlice.actions;
+export const { addIngredient, removeIngredient, ingridientDown, ingridientUp } =
+  constructorSlice.actions;
