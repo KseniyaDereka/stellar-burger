@@ -12,6 +12,7 @@ import { useDispatch } from '../../services/store';
 
 export const BurgerIngredients: FC = () => {
   const { ingredients } = useSelector(getIngredientsSelector);
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getIngredients());

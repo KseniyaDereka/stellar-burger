@@ -84,7 +84,7 @@ const constructorSlice = createSlice({
   },
   selectors: {
     getConstructorSelector: (state) => state.constructorItems,
-    getIngridientId: ({ constructorItems: { bun, ingredients } }) =>
+    getIngredientId: ({ constructorItems: { bun, ingredients } }) =>
       [bun, ...ingredients].map((i) => i?._id)
   }
   // extraReducers: (builder) => {
@@ -105,6 +105,7 @@ const constructorSlice = createSlice({
 });
 
 export default constructorSlice.reducer;
-export const { getConstructorSelector } = constructorSlice.selectors;
+export const { getConstructorSelector, getIngredientId } =
+  constructorSlice.selectors;
 export const { addIngredient, removeIngredient, ingridientDown, ingridientUp } =
   constructorSlice.actions;

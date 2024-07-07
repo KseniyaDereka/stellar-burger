@@ -20,7 +20,7 @@ export const BurgerConstructor: FC = () => {
   // };
   const constructorItems = useSelector(getConstructorSelector);
   useEffect(() => {
-    console.log(constructorItems);
+    // console.log(constructorItems);
   });
 
   const orderRequest = false;
