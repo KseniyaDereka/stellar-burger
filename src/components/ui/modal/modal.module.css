@@ -15,10 +15,6 @@
     0px 0px 1px rgba(0, 0, 0, 0.04);
 }
 
-.modal.unactive {
-  opacity: 0;
-}
-
 .header {
   display: flex;
   align-items: center;

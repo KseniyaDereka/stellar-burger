@@ -8,32 +8,35 @@ import {
 import { getIngredientId } from '../../slices/burgerConstructorSlice';
 import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
-import { TIngredient } from '@utils-types';
 import { useParams } from 'react-router-dom';
 
 export const IngredientDetails: FC = () => {
   /** TODO: взять переменную из стора */
   const { ingredients } = useSelector(getIngredientsSelector);
-  // const location = useLocation();
+  const location = useLocation();
+  const backgroundLocation = location.state?.backgroundLocation;
   const { id } = useParams<'id'>();
-  // const ingridientId = location.pathname.split('/')[2];
   const ingredientData = ingredients.find((i) => i._id == id);
-
-  if (!ingredientData) {
-    return <Preloader />;
+  console.log(id);
+  if (!ingredientData?._id) {
+    return (
+      <>
+        <p>Связываемся с поварами...</p>
+        <Preloader />
+      </>
+    );
   }
   return (
     <>
-      {/* {ingredients.map((ingredientData: TIngredient) => (
-        <Link
-          key={ingredientData._id}
-          to={`/ingredients/${ingredientData._id}`}
-          state={{ backgroundLocation: location }}
-        > */}
-      {/* <p>{'Hello, ingredient ' + ingridientId}</p> */}
+      {/* <Link
+        key={ingredientData._id}
+        to={`/ingredients/${ingredientData._id}`}
+        state={{ backgroundLocation: location }}
+      > */}
+
       <IngredientDetailsUI ingredientData={ingredientData} />
-      {/* </Link>
-      ))} */}
+
+      {/* </Link> */}
     </>
   );
 };

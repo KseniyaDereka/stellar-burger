@@ -22,15 +22,15 @@ import { AppHeader, OrderInfo } from '@components';
 
 const App = () => {
   const location = useLocation();
-  const backgroundLocation = location.state?.backgroundLocation;
+  const backgroundLocation = location.state && location.state.background;
   const navigate = useNavigate();
   const closeModal = () => navigate(-1);
   return (
     <div className={styles.app}>
       <AppHeader />
       <Routes
-        // location={backgroundLocation || location}
-        location={{ pathname: '/' }}
+        location={backgroundLocation || location}
+        // location={{ pathname: '/' }}
       >
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
@@ -85,37 +85,36 @@ const App = () => {
         />
         <Route path='*' element={<NotFound404 />} />
       </Routes>
-      <Routes>
-        <Route
-          path='/feed/:number'
-          element={
-            <Modal title='' onClose={() => {}}>
-              {<OrderInfo />}
-            </Modal>
-          }
-        />
-      </Routes>
-
-      <Routes>
-        <Route
-          path='/ingredients/:id'
-          element={
-            <Modal title='Детали ингредиента' onClose={closeModal}>
-              <IngredientDetails />
-            </Modal>
-          }
-        />
-        <Route
-          path='/profile/orders/:number'
-          element={
-            <Modal title='' onClose={() => {}}>
-              <ProtectedRoute>
-                <OrderInfo />
-              </ProtectedRoute>
-            </Modal>
-          }
-        />
-      </Routes>
+      {backgroundLocation && (
+        <Routes>
+          <Route
+            path='/feed/:number'
+            element={
+              <Modal title='' onClose={() => {}}>
+                {<OrderInfo />}
+              </Modal>
+            }
+          />
+          <Route
+            path='/ingredients/:id'
+            element={
+              <Modal title='Детали ингредиента' onClose={closeModal}>
+                <IngredientDetails />
+              </Modal>
+            }
+          />
+          <Route
+            path='/profile/orders/:number'
+            element={
+              <Modal title='' onClose={() => {}}>
+                <ProtectedRoute>
+                  <OrderInfo />
+                </ProtectedRoute>
+              </Modal>
+            }
+          />
+        </Routes>
+      )}
     </div>
   );
 };
